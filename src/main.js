@@ -1,10 +1,10 @@
 import $ from 'jquery';
 import '../css/styles.css';
 function apiCaller(selector, name, specialization){
-  var api_key = process.env.API_KEY;
+  var api_key = process.env.API_KEY; //Change this API-KEY
   var url;
   var method = 'GET';
-console.log("Selector" + selector);
+  console.log("Selector" + selector);
   if(selector == 0){
     url = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=' + specialization + '&location=or-portland&skip=0&limit=100&user_key=' + api_key;
   } else if(selector == 2){
@@ -47,6 +47,7 @@ console.log("Selector" + selector);
       console.log("data.stat = ok");
       console.log(data);
     } else {
+      //Alerting to message
       console.log(data.message);
     }
   };
@@ -57,11 +58,12 @@ function generateResults(selector, inputResultList){
   if(selector == 1){
     $("#results").append("<div class='alert alert-success' role ='alert'>Results</div>");
     for(var i = 0; i < inputResultList.length; i ++){
-      $("#results").append("<div class='col-md-2'><h4>Name: " + inputResultList[i].profile.first_name + " " + inputResultList[i].profile.last_name + "</h4><h4>Phone Number: " + inputResultList[i].practices[0].phones[0].number + "</h4><h4>Address: " + inputResultList[i].practices[0].visit_address.city + ", " + inputResultList[i].practices[0].visit_address.state + ", " + inputResultList[i].practices[0].visit_address.street + ", " + inputResultList[i].practices[0].visit_address.zip +"</h4>");
+      $("#results").append("<div class='col-md-2'><h4><strong>Name:</strong> " + inputResultList[i].profile.first_name + " " + inputResultList[i].profile.last_name + "</h4><h4><strong>Phone Number:</strong> " + inputResultList[i].practices[0].phones[0].number + "</h4><h4><strong>Address:</strong> " + inputResultList[i].practices[0].visit_address.city + " " + inputResultList[i].practices[0].visit_address.state + ", " + inputResultList[i].practices[0].visit_address.street + ", " + inputResultList[i].practices[0].visit_address.zip +"</h4><h4> <strong>Website:</strong> did not find in API</h4><h4><strong>Accepting Patients:</strong> " + inputResultList[i].practices[0].accepts_new_patients + "</h4>");
     }
   } else {
     alert("No doctors meet the criteria.");
     $("#results").append("<div class='alert alert-warning' role ='alert'>No results for your Query. Click the button below to generate top 100 doctors in portland</div><button type='button' class='btn medium' id='backupButton'>Find 100 more doctors</button>");
+    backupButtonListener();
   }
 }
 function generateSpecialityDropDown(inputResults){
@@ -74,23 +76,24 @@ function generateSpecialityDropDown(inputResults){
   }
   $("#specialityList").append("</select>");
 }
-
+function backupButtonListener(){
+  $("#backupButton").click(function(){
+    console.log("I hit the backup button");
+    apiCaller(3, "", "");
+  });
+}
 
 $(document).ready(function() {
   apiCaller(2, "", "");
   $("form#specialized").submit(function(event) {
     event.preventDefault();
-    let name = $("#name").val()
+    let name = $("#name").val();
     let specialization = $("#specialityUnordered").val();
     console.log(name + ", " + specialization);
     if(name.length == 0){
-      apiCaller(0, name, specialization)
+      apiCaller(0, name, specialization);
     } else {
-      apiCaller(4, name, specialization)
+      apiCaller(4, name, specialization);
     }
-  });
-  $("#backupButton").click(function(){
-    console.log("I hit the backup button");
-    apiCaller(3, "", "");
   });
 });
