@@ -4,7 +4,7 @@
     <title>API Practice</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <link rel="icon" href="http://lhscc.org.uk/wp-content/uploads/2014/12/cropped-favicon.png">
+    <link rel="icon" href="http://icons.iconarchive.com/icons/icons-land/medical/256/People-Doctor-Male-icon.png">
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
   </head>
 <body>
@@ -13,10 +13,17 @@
         <h1>API Practice</h1>
     </div>
     <div class="row">
-      <form id="newUser">
+      <form id="specialized">
         <div class="form-group">
-          <label for="id">Enter User Id: </label>
-          <input id="id" class="form-control" required>
+          <label for="specialized">Enter a medical issue to find a specialized doctor in portland: </label>
+          <input id="specialized" class="form-control" required>
+        </div>
+        <button type="submit" class="btn medium">Submit</button>
+      </form>
+      <form id="name">
+        <div class="form-group">
+          <label for="name">Enter a doctors name you want to find.</label>
+          <input id="name" class="form-control" required>
         </div>
         <button type="submit" class="btn medium">Submit</button>
       </form>

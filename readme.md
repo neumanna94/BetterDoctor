@@ -25,4 +25,4 @@ alexander.daniel.neumann@gmail.com
 
 ## References
 * **Favicon Source:**
-http://lhscc.org.uk/wp-content/uploads/2014/12/cropped-favicon.png
+http://icons.iconarchive.com/icons/icons-land/medical/256/People-Doctor-Male-icon.png

@@ -1,12 +1,20 @@
 import $ from 'jquery';
 import '../css/styles.css';
-function loadPhotos(inputUserId){
-  // var api_key = process.env.API_KEY;
-  var api_key = tester1;
+function apiCaller(specialityList, doctorName){
+  var api_key = process.env.API_KEY;
+  var url;
   var method = 'GET';
 
-  var url =
-    console.log(url);
+  if(specialityList.length == 0){
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?name=Alex%20Neumann&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
+  } else if(doctorName.length == 0){
+    url = "https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=sport-physical-therapist&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=" + api_key;
+  } else {
+    //Find doctors in portland
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
+  }
+
+  console.log(url);
   var xhr = new XMLHttpRequest();
   if(!('withCredentials' in xhr)) {
     console.log("Browser does not support CORS");
@@ -32,17 +40,16 @@ function loadPhotos(inputUserId){
   };
   xhr.send();
 }
-function generatePhotos(inputListOfPhotos){
-  $("#photos").append("<h2> User Id: "+inputListOfPhotos[0].owner+"</h2>");
-  for(var i = 0 ; i < inputListOfPhotos.length; i ++){
-    $("#photos").append("<div class='col-md-2'><h4><a href='" + inputListOfPhotos[i].url_q + "'>" + inputListOfPhotos[i].title + "</a><img src='"+inputListOfPhotos[i].url_q + "'></div>");
-  }
-}
+// function generateResults(inputResults){
+//   $("#photos").append("<h2> User Id: "+inputResults[0].owner+"</h2>");
+//   for(var i = 0 ; i < inputResults.length; i ++){
+//     $("#photos").append("<div class='col-md-2'><h4><a href='" + inputResults[i].url_q + "'>" + inputResults[i].title + "</a><img src='"+inputResults[i].url_q + "'></div>");
+//   }
+// }
 $(document).ready(function() {
   $("form#newUser").submit(function(event) {
     event.preventDefault();
+    apiCaller("","Alex");
 
-    let newUser = $("#id").val();
-    loadPhotos(newUser);
   });
 });
