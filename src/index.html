@@ -1,36 +1,67 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>API Practice</title>
+    <title>Better Doctor API Application</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="icon" href="http://icons.iconarchive.com/icons/icons-land/medical/256/People-Doctor-Male-icon.png">
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
   </head>
 <body>
+  <div class = "jumbotron jumbotron-fluid">
+      <h1>Better Doctor API Application</h1>
+  </div>
   <div class = "container">
-    <div class = "jumbotron">
-        <h1>API Practice</h1>
-    </div>
     <div class="row">
-      <form id="specialized">
-        <div class="form-group">
-          <label for="specialized">Enter a medical issue to find a specialized doctor in portland: </label>
-          <input id="specialized" class="form-control" required>
-        </div>
-        <button type="submit" class="btn medium">Submit</button>
-      </form>
-      <form id="name">
-        <div class="form-group">
-          <label for="name">Enter a doctors name you want to find.</label>
-          <input id="name" class="form-control" required>
-        </div>
-        <button type="submit" class="btn medium">Submit</button>
-      </form>
-      <div class="col-md-12" id="photos">
+      <div class="alert alert-success" role="alert">
+        Enter parameters to search the BetterDoctor API
+      </div>
+      <div class="col-md-12-flex border border-primary rounded">
+        <form id="specialized" class ="border border-primary rounded">
+          <div class="form-group">
+            <label for="specialized">Enter a medical issue to find a specialized doctor in portland: </label>
+            <input id="specialized" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="name">Enter a doctors name you want to find.</label>
+            <input id="name" class="form-control" required>
+          </div>
+          <button type="submit" class="btn medium">Submit</button>
+        </form>
+      </div>
+      <div class="col-md-12" id="results">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <!-- AIzaSyBihlB7C_yawFAQTCzUwfqEB6YLxxda7nY -->
     <footer>Alexander Neumann @ Epicodus 2018</footer>
   </div>
 </body>
