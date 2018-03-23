@@ -10,7 +10,6 @@
 <body>
   <div class = "jumbotron jumbotron-fluid">
       <h1>Better Doctor API Application</h1>
-      <button type="button" name="button" id ="generateSpecialities">Generate Drop Down menu</button>
   </div>
   <div class = "container">
     <div class="row">
@@ -20,15 +19,18 @@
       <div class="col-md-12-flex border border-primary rounded">
         <form id="specialized" class ="border border-primary rounded">
           <div class="form-group">
-            <label for="name">Enter a doctors name you want to find.</label>
-            <input id="name" class="form-control" required>
+            <label for="name">Enter the last name of the doctor you want to find.</label>
+            <input id="name" class="form-control">
           </div>
           <div id="specialityList">
 
           </div>
+          <button type="submit" class="btn medium">Submit</button>
         </form>
       </div>
-      <div class="col-md-12" id="results">
+    </div>
+    <div class="row-flex">
+      <div class="col-flex" id="results">
       </div>
     </div>
     <footer>Alexander Neumann @ Epicodus 2018</footer>

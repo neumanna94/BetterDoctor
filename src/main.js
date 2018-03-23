@@ -4,23 +4,19 @@ function apiCaller(selector, name, specialization){
   var api_key = process.env.API_KEY;
   var url;
   var method = 'GET';
-
+console.log("Selector" + selector);
   if(selector == 0){
-    let newNameArr = name.split(" ");
-    let inputString = "";
-    for(var i =0 ; i < newNameArr.length; i ++){
-      inputString = newNameArr[i] + "%20";
-    }
-    console.log(inputString);
-
-    url = 'https://api.betterdoctor.com/2016-03-01/doctors?name='+inputString+'&specialty_uid=' + specialization + '&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=' + specialization + '&location=or-portland&skip=0&limit=100&user_key=' + api_key;
   } else if(selector == 2){
     //Return all specialities to dynamically create
     url = "https://api.betterdoctor.com/2016-03-01/specialties?limit=100&user_key=" + api_key;
-  } else {
+  } else if(selector == 3){
     //Find 100 doctors in portland
-    url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=or-portland&skip=0&limit=100&user_key=' + api_key;
+  } else if(selector == 4){
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?last_name=' + name + '&specialty_uid=' + specialization + '&location=or-portland&skip=0&limit=100&user_key=' + api_key;
   }
+
 
   console.log(url);
   var xhr = new XMLHttpRequest();
@@ -39,7 +35,11 @@ function apiCaller(selector, name, specialization){
     var data = JSON.parse(xhr.responseText);
     console.log(data);
     if(selector != 2){
-      generateResults(data.data);
+      if(data.data.length == 0){
+        generateResults(0, data.data);
+      } else {
+        generateResults(1,data.data);
+      }
     } else if(selector == 2){
       generateSpecialityDropDown(data.data);
     }
@@ -52,12 +52,16 @@ function apiCaller(selector, name, specialization){
   };
   xhr.send();
 }
-function generateResults(inputResultList){
+function generateResults(selector, inputResultList){
   $("#results").text("");
-  $("#results").append("<div class='alert alert-success' role ='alert'>Your Results:</div>");
-  for(var i = 0; i < inputResultList.length; i ++){
-    $("#results").append("")
-
+  if(selector == 1){
+    $("#results").append("<div class='alert alert-success' role ='alert'>Results</div>");
+    for(var i = 0; i < inputResultList.length; i ++){
+      $("#results").append("<div class='col-md-2'><h4>Name: " + inputResultList[i].profile.first_name + " " + inputResultList[i].profile.last_name + "</h4><h4>Phone Number: " + inputResultList[i].practices[0].phones[0].number + "</h4><h4>Address: " + inputResultList[i].practices[0].visit_address.city + ", " + inputResultList[i].practices[0].visit_address.state + ", " + inputResultList[i].practices[0].visit_address.street + ", " + inputResultList[i].practices[0].visit_address.zip +"</h4>");
+    }
+  } else {
+    alert("No doctors meet the criteria.");
+    $("#results").append("<div class='alert alert-warning' role ='alert'>No results for your Query. Click the button below to generate top 100 doctors in portland</div><button type='button' class='btn medium' id='backupButton'>Find 100 more doctors</button>");
   }
 }
 function generateSpecialityDropDown(inputResults){
@@ -70,23 +74,23 @@ function generateSpecialityDropDown(inputResults){
   }
   $("#specialityList").append("</select>");
 }
-// function generateResults(inputResults){
-//   $("#photos").append("<h2> User Id: "+inputResults[0].owner+"</h2>");
-//   for(var i = 0 ; i < inputResults.length; i ++){
-//     $("#photos").append("<div class='col-md-2'><h4><a href='" + inputResults[i].url_q + "'>" + inputResults[i].title + "</a><img src='"+inputResults[i].url_q + "'></div>");
-//   }
-// }
+
+
 $(document).ready(function() {
-  $("#generateSpecialities").click(function(){
-    apiCaller(2, "", "");
-  })
-  $("form#newUser").submit(function(event) {
+  apiCaller(2, "", "");
+  $("form#specialized").submit(function(event) {
     event.preventDefault();
     let name = $("#name").val()
     let specialization = $("#specialityUnordered").val();
-    console.log(name = ", " + specialization);
-    apiCaller(0, name, specialization)
-
-
+    console.log(name + ", " + specialization);
+    if(name.length == 0){
+      apiCaller(0, name, specialization)
+    } else {
+      apiCaller(4, name, specialization)
+    }
+  });
+  $("#backupButton").click(function(){
+    console.log("I hit the backup button");
+    apiCaller(3, "", "");
   });
 });
