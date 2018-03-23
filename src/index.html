@@ -10,6 +10,7 @@
 <body>
   <div class = "jumbotron jumbotron-fluid">
       <h1>Better Doctor API Application</h1>
+      <button type="button" name="button" id ="generateSpecialities">Generate Drop Down menu</button>
   </div>
   <div class = "container">
     <div class="row">
@@ -19,47 +20,15 @@
       <div class="col-md-12-flex border border-primary rounded">
         <form id="specialized" class ="border border-primary rounded">
           <div class="form-group">
-            <label for="specialized">Enter a medical issue to find a specialized doctor in portland: </label>
-            <input id="specialized" class="form-control" required>
-          </div>
-          <div class="form-group">
             <label for="name">Enter a doctors name you want to find.</label>
             <input id="name" class="form-control" required>
           </div>
-          <button type="submit" class="btn medium">Submit</button>
+          <div id="specialityList">
+
+          </div>
         </form>
       </div>
       <div class="col-md-12" id="results">
-        <table class="table">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
     <footer>Alexander Neumann @ Epicodus 2018</footer>

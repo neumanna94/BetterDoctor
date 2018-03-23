@@ -1,16 +1,24 @@
 import $ from 'jquery';
 import '../css/styles.css';
-function apiCaller(specialityList, doctorName){
+function apiCaller(selector, name, specialization){
   var api_key = process.env.API_KEY;
   var url;
   var method = 'GET';
 
-  if(specialityList.length == 0){
-    url = 'https://api.betterdoctor.com/2016-03-01/doctors?name=Alex%20Neumann&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
-  } else if(doctorName.length == 0){
-    url = "https://api.betterdoctor.com/2016-03-01/doctors?specialty_uid=sport-physical-therapist&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=" + api_key;
+  if(selector == 0){
+    let newNameArr = name.split(" ");
+    let inputString = "";
+    for(var i =0 ; i < newNameArr.length; i ++){
+      inputString = newNameArr[i] + "%20";
+    }
+    console.log(inputString);
+
+    url = 'https://api.betterdoctor.com/2016-03-01/doctors?name='+inputString+'&specialty_uid=' + specialization + '&location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
+  } else if(selector == 2){
+    //Return all specialities to dynamically create
+    url = "https://api.betterdoctor.com/2016-03-01/specialties?limit=100&user_key=" + api_key;
   } else {
-    //Find doctors in portland
+    //Find 100 doctors in portland
     url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=45.5231%2C%20122.6765%2C%20100&sort=rating-asc&skip=0&limit=100&user_key=' + api_key;
   }
 
@@ -30,15 +38,37 @@ function apiCaller(specialityList, doctorName){
   xhr.onload = function () {
     var data = JSON.parse(xhr.responseText);
     console.log(data);
+    if(selector != 2){
+      generateResults(data.data);
+    } else if(selector == 2){
+      generateSpecialityDropDown(data.data);
+    }
     if(data.stat == 'ok') {
       console.log("data.stat = ok");
-      var photos = data.photos.photo;
-      console.log(photos);
+      console.log(data);
     } else {
-      alert(data.message);
+      console.log(data.message);
     }
   };
   xhr.send();
+}
+function generateResults(inputResultList){
+  $("#results").text("");
+  $("#results").append("<div class='alert alert-success' role ='alert'>Your Results:</div>");
+  for(var i = 0; i < inputResultList.length; i ++){
+    $("#results").append("")
+
+  }
+}
+function generateSpecialityDropDown(inputResults){
+  console.log("Inside generateFunction" + inputResults +", " + inputResults.length);
+  $("#specialityList").text("");
+  $("#specialityList").append("<label for='specialityUnordered'>Select a speciality from the list</labe>");
+  $("#specialityList").append("<select id='specialityUnordered' class='form-control'>");
+  for(var i = 0; i < inputResults.length; i ++){
+    $("#specialityUnordered").append("<option value = '" + inputResults[i].uid + "'>" + inputResults[i].name +"</option>");
+  }
+  $("#specialityList").append("</select>");
 }
 // function generateResults(inputResults){
 //   $("#photos").append("<h2> User Id: "+inputResults[0].owner+"</h2>");
@@ -47,9 +77,16 @@ function apiCaller(specialityList, doctorName){
 //   }
 // }
 $(document).ready(function() {
+  $("#generateSpecialities").click(function(){
+    apiCaller(2, "", "");
+  })
   $("form#newUser").submit(function(event) {
     event.preventDefault();
-    apiCaller("","Alex");
+    let name = $("#name").val()
+    let specialization = $("#specialityUnordered").val();
+    console.log(name = ", " + specialization);
+    apiCaller(0, name, specialization)
+
 
   });
 });
